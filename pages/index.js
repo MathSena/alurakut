@@ -8,7 +8,7 @@ import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSideBar(propriedades){
   return(
-  <Box>
+  <Box as="aside">
     <img src={`https://github.com/${propriedades.githubUser}.png`} style={{ borderRadius:'8px;'}}></img>
     <hr />
 
@@ -23,13 +23,34 @@ function ProfileSideBar(propriedades){
   )
 }
 
+function ProfileRelationsBox(propriedades){
+  return(
+    <ProfileRelationsBoxWrapper>
+        <h2 className="smallTitle">
+          {propriedades.title} ({propriedades.items.length})
+          </h2>
+          <ul>
+          {/* seguidores.map((itemAtual) =>{
+            return(
+              <li key = {itemAtual}>
+              <a href={`https://github.com/${itemAtual}.png`}>
+                <img src={itemAtual.image} />       
+              <span>{itemAtual.title}</span>          
+              </a>
+              </li>
+            )
+          }) */}
+          </ul>
+        </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
   const usuarioAleatorio = 'mathsena';
   const [comunidades, setComunidades] = React.useState([{
     id: '738563267562390564896',
     title: 'Fora Bolsonaro',
     image: 'https://static.vakinha.com.br/uploads/vakinha/image/1912444/Bolsonaro_Genocida.jpg?ims=700x410'
-
   }]);
   // const comunidades =['Alurakut'];
   const pessoasFavoritas = [
@@ -39,8 +60,22 @@ export default function Home() {
     'rafaballerini',
     'marcobrunodev',
     'felipefialho'
-
   ]
+  
+  const [seguidores, setSeguidores] = React.useState([]);
+  // 0 - Pegar o array de dados do github 
+  React.useEffect(function() {
+    // GET
+    fetch('https://api.github.com/users/mathsena/followers')
+    .then(function (respostaDoServidor) {
+      return respostaDoServidor.json();
+    })
+    .then(function(respostaCompleta) {
+      setSeguidores(respostaCompleta);
+    })
+}, [])
+
+// 1 - Criar um box que terá um map, baseado nos items da array que pegamos na API do github
 
 
   return (
@@ -89,10 +124,12 @@ export default function Home() {
 
       </Box>
       </div>
-  
+    
+    
 
 
       <div className="profileRelationsArea"  style={{ gridArea: 'profileRelationsArea' }}>
+        <ProfileRelationsBox title="Seguidores" items={seguidores} />
         <ProfileRelationsBoxWrapper>
         <h2 className="smallTitle">
           Comunidades ({comunidades.length})
