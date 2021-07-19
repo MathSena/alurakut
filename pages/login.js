@@ -1,5 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router'; // Hook do Next
+import nookies from 'nookies';
 
 export default function LoginScreen() {
     const router = useRouter();
@@ -17,12 +18,27 @@ export default function LoginScreen() {
             </section>
 
             <section className="formArea">
-            <form className="box" onSubmit={(infosDoEvento)=> {
+            <form className="box" onSubmit={(infosDoEvento) => {
                 infosDoEvento.preventDefault();
-                    //alert('Alguém clicou')
-                    console.log('User: ', githubUser)
+                // alert('Alguém clicou no botão!')
+                console.log('Usuário: ', githubUser)
+                fetch('https://alurakut.vercel.app/api/login', {
+                    method: 'POST',
+                    headers: {
+                       'Content-Type': 'application/json'  
+                    },
+                    body: JSON.stringify({ githubUser: githubUser })
+                })
+                .then(async (respostaDoServer) => {
+                    const dadosDaResposta = await respostaDoServer.json()
+                    const token = dadosDaResposta.token;
+                    nookies.set(null, 'USER_TOKEN', token, {
+                        path: '/',
+                        maxAge: 86400 * 7 
+                    })
                     router.push('/')
-                }}>
+                })
+          }}>
                 <p>
                 Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!
             </p>
@@ -30,6 +46,12 @@ export default function LoginScreen() {
                     placeholder="Usuário" value={githubUser} onChange={(evento)=>{
                         setGitHubUser(evento.target.value)
                     }} />
+                    {githubUser.length ===0
+                    ? 'Prencha o Campo acima'
+                : '' 
+                }
+
+
                 <button type="submit">
                 Login
                 </button>

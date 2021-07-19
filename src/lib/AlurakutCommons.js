@@ -54,7 +54,7 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background: url('https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg');;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -80,7 +80,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
     .boxLink {
       font-size: 18px;
-      color: #2E7BB4;
+      color: #000;
       -webkit-text-decoration: none;
       text-decoration: none;
       font-weight: 800;
@@ -93,7 +93,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
   }
   .container {
-    background-color: #308BC5;
+    background: url('https://img.olhardigital.com.br/wp-content/uploads/2021/01/iStock-1183329518-1-1322x450.jpg');;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -140,7 +140,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
     input {
       color: #ffffff;
-      background: #5579A1;
+      background: #000;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
